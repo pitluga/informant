@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Huh? what happened"
+exit 2

@@ -1,0 +1,4 @@
+#! /bin/sh
+
+echo "OK all is well"
+exit 0
