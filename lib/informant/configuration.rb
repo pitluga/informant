@@ -14,18 +14,18 @@ module Informant
     end
 
     def node(name, options)
-      @nodes ||= []
-      @nodes << Config::Node.new(name, options)
+      @nodes ||= {}
+      @nodes[name] = Config::Node.new(self, name, options)
     end
 
     def command(name, options)
-      @commands ||= []
-      @commands << Config::Command.new(name, options)
+      @commands ||= {}
+      @commands[name] = Config::Command.new(name, options)
     end
 
     def notification(name, options)
-      @notifications ||= []
-      @notifications << Config::Notification(name, options)
+      @notifications ||= {}
+      @notifications[name] = Config::Notification(name, options)
     end
   end
 end

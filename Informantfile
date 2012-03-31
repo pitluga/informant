@@ -1,10 +1,17 @@
 command "passing", {
-  :execute => "spec/support/checks/passing_check"
+  :execute => "spec/support/checks/passing_check",
+  :interval => 10
+}
+command "failing", {
+  :execute => "spec/support/checks/failing_check"
+}
+command "unknown", {
+  :execute => "spec/support/checks/unknown_check"
 }
 
 node "app01", {
-  :ip_address => "127.0.0.1",
-  :command => [
+  :address => "127.0.0.1",
+  :commands => [
     "passing",
     "failing",
     "unknown"
