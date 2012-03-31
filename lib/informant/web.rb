@@ -3,6 +3,10 @@ module Informant
     register Sinatra::Synchrony
     set :erb, :layout => :"layout.html"
 
+    configure :development do
+      register Sinatra::Reloader
+    end
+
     get "/" do
       erb :"index.html"
     end

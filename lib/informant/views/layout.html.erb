@@ -1,9 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Informant</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet"/>
   </head>
   <body>
-    this is the layout
-    <%= yield %>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Informant</a>
+          <ul class="nav">
+            <li><a href="#">Nodes</a></li>
+            <li><a href="#">Timeline</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          This is the sidebar
+        </div>
+        <div class="span10">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

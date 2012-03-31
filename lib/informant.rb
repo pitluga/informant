@@ -2,6 +2,7 @@ require 'fiber'
 
 require 'bundler/setup'
 require 'sinatra/base'
+require 'sinatra/reloader'
 require 'sinatra/synchrony'
 require 'eventmachine'
 require 'rack/fiber_pool'
