@@ -9,6 +9,7 @@ describe Informant::CommandRunner do
 
       check.status.should == :success
       check.output.should == "OK all is well\n"
+      check.timestamp.to_i.should be_within(10).of(Time.now.to_i)
     end
 
     it "returns :failed for a command that returns 1" do
@@ -16,6 +17,7 @@ describe Informant::CommandRunner do
 
       check.status.should == :failed
       check.output.should == "OH NO! something went wrong\n"
+      check.timestamp.to_i.should be_within(10).of(Time.now.to_i)
     end
 
     it "returns :unknown for a command the returns something else" do
@@ -23,6 +25,7 @@ describe Informant::CommandRunner do
 
       check.status.should == :unknown
       check.output.should == "Huh? what happened\n"
+      check.timestamp.to_i.should be_within(10).of(Time.now.to_i)
     end
   end
 end

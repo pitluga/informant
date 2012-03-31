@@ -21,4 +21,14 @@ describe Informant::Helpers do
       @helper.label_class_for_status(nil).should == "label-warning"
     end
   end
+
+  describe "#tab_class" do
+    it "returns active if the parameters match" do
+      @helper.tab_class(:foo, :foo).should == "active"
+    end
+
+    it "returns empty string if the parameters are different" do
+      @helper.tab_class(:foo, :bar).should == ""
+    end
+  end
 end

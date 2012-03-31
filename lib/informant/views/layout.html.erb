@@ -4,6 +4,9 @@
     <title>Informant</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" ></script>
+    <script src="/js/v/jquery.easydate-0.2.4.min.js" type="text/javascript"></script>
+    <script src="/js/application.js" type="text/javascript"></script>
   </head>
   <body>
     <div class="navbar">
@@ -11,8 +14,8 @@
         <div class="container">
           <a class="brand" href="#">Informant</a>
           <ul class="nav">
-            <li><a href="#">Nodes</a></li>
-            <li><a href="#">Timeline</a></li>
+            <li class="<%= tab_class(:nodes, @active_tab)%>"><a href="/">Nodes</a></li>
+            <li class="<%= tab_class(:timeline, @active_tab)%>"><a href="/timeline">Timeline</a></li>
           </ul>
         </div>
       </div>

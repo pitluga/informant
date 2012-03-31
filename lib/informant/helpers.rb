@@ -7,5 +7,18 @@ module Informant
       else "label-warning"
       end
     end
+
+    def http_date(time)
+      return nil unless time
+      time.httpdate
+    end
+
+    def tab_class(tab, active_tab)
+      if tab == active_tab
+        "active"
+      else
+        ""
+      end
+    end
   end
 end

@@ -9,7 +9,8 @@ command "unknown", {
   :execute => "spec/support/checks/unknown_check"
 }
 
-node "app01", {
+(1..30).each do |n|
+node "app#{"%02d" % n}", {
   :address => "127.0.0.1",
   :commands => [
     "passing",
@@ -17,3 +18,4 @@ node "app01", {
     "unknown"
   ]
 }
+end

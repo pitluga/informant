@@ -26,16 +26,19 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Last Check</th>
           <th>Output</th>
         </tr>
       </thead>
       <tbody>
         <% node.commands.each do |command_name| %>
+          <% result = node.command_status[command_name] %>
           <tr>
             <td>
               <%= command_name %>
-              <span class="label <%= label_class_for_status(node.command_status[command_name].status) %>"><%= node.command_status[command_name].status %> </span>
+              <span class="label <%= label_class_for_status(result.status) %>"><%= result.status %> </span>
             </td>
+            <td><abbr class="easydate" title="<%= http_date result.timestamp %>" /></td>
             <td><%= node.command_status[command_name].output %></td>
           </tr>
         <% end %>

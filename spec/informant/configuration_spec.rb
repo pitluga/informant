@@ -7,7 +7,7 @@ describe Informant::Configuration do
     end
 
     it "builds nodes" do
-      @config.nodes.size.should == 1
+      @config.nodes.size.should == 30
       name, node = @config.nodes.first
       name.should == "app01"
       node.address.should == "127.0.0.1"

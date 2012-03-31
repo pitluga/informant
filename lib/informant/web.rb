@@ -9,6 +9,7 @@ module Informant
     end
 
     get "/" do
+      @active_tab = :nodes
       erb :"index.html"
     end
 
