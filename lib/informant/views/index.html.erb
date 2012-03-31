@@ -1,1 +1,7 @@
-hi there
+Nodes:
+
+<ul>
+  <% Informant.configuration.nodes.each do |node| %>
+    <li><%= node.name %></li>
+  <% end %>
+</ul>

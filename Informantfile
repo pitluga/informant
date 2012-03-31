@@ -1,0 +1,12 @@
+command "passing", {
+  :execute => "spec/support/checks/passing_check"
+}
+
+node "app01", {
+  :ip_address => "127.0.0.1",
+  :command => [
+    "passing",
+    "failing",
+    "unknown"
+  ]
+}
