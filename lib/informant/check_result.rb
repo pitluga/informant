@@ -6,5 +6,7 @@ module Informant
       @status = status
       @output = output
     end
+
+    UNKNOWN = self.new(:unknown, "")
   end
 end

@@ -1,13 +1,15 @@
 module Informant
   module Config
     class Node
-      attr_reader :name, :address, :commands
+      attr_reader :name, :address, :commands, :command_status
 
       def initialize(config, name, options)
         @config = config
         @name = name
         @address = options[:address]
         @commands = options.fetch(:commands, [])
+        @command_status = {}
+        @command_status.default = CheckResult::UNKNOWN
       end
 
       def schedule
@@ -19,6 +21,13 @@ module Informant
         end
       end
 
+      def count_unknown
+        commands.select { |n| command_status[n].status == :unknown }.size
+      end
+
+      def count_failed
+        commands.select { |n| command_status[n].status == :failed }.size
+      end
     end
   end
 end

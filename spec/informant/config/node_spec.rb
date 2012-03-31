@@ -35,4 +35,31 @@ describe Informant::Config::Node do
     end
   end
 
+  describe "check counts" do
+    before :each do
+      config = Informant::Configuration.new
+      config.node("node", :address => "localhost", :commands => %w(a b c))
+      @node = config.nodes['node']
+    end
+
+    describe "#count_unknown" do
+      it "returns the number of unknown checks" do
+        @node.command_status['b'] = Informant::CheckResult.new(:unknown, "")
+        @node.command_status['c'] = Informant::CheckResult.new(:success, "")
+
+        @node.count_unknown.should == 2
+      end
+    end
+
+    describe "#count_failed" do
+      it "returns the number of failed checks" do
+        @node.command_status['a'] = Informant::CheckResult.new(:failed, "")
+        @node.command_status['b'] = Informant::CheckResult.new(:unknown, "")
+        @node.command_status['c'] = Informant::CheckResult.new(:failed, "")
+
+        @node.count_failed.should == 2
+      end
+    end
+  end
+
 end

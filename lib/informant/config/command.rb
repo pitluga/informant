@@ -1,7 +1,7 @@
 module Informant
   module Config
     class Command
-      attr_reader :interval, :execute
+      attr_reader :interval, :execute, :name
 
       def initialize(name, options)
         @name = name
@@ -11,6 +11,7 @@ module Informant
 
       def run_for(node)
         result = CommandRunner.run(execute)
+        node.command_status[name] = result
         message = CheckMessage.new(node, self, result)
         Informant.channels.checks.push(message)
       end

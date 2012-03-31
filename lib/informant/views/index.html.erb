@@ -1,7 +1,45 @@
-Nodes:
+<div class="span2">
+  <ul class="nav nav-list">
+    <li class="nav-header">
+      Nodes
+    </li>
+    <% Informant.configuration.nodes.each do |(name, node)| %>
+      <li>
+        <a href="#<%= name %>">
+          <%= name %>
+          <% if node.count_unknown > 0 %>
+            <span class="badge badge-warning"><%= node.count_unknown %></span>
+          <% end %>
+          <% if node.count_failed > 0 %>
+            <span class="badge badge-error"><%= node.count_failed %></span>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>
 
-<ul>
-  <% Informant.configuration.nodes.each do |node| %>
-    <li><%= node.name %></li>
+<div class="span10">
+  <% Informant.configuration.nodes.each do |(name, node)| %>
+    <h3><a name="<%= name %>"><%= name %></a></h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% node.commands.each do |command_name| %>
+          <tr>
+            <td>
+              <%= command_name %>
+              <span class="label <%= label_class_for_status(node.command_status[command_name].status) %>"><%= node.command_status[command_name].status %> </span>
+            </td>
+            <td><%= node.command_status[command_name].output %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
-</ul>
+</div>

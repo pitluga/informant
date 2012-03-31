@@ -8,7 +8,6 @@ require 'eventmachine'
 require 'rack/fiber_pool'
 
 require 'thin/callbacks'
-require 'informant/web'
 require 'informant/channels'
 require 'informant/check_message'
 require 'informant/check_result'
@@ -17,7 +16,9 @@ require 'informant/configuration'
 require 'informant/config/command'
 require 'informant/config/node'
 require 'informant/config/notification'
+require 'informant/helpers'
 require 'informant/scheduler'
+require 'informant/web'
 
 module Informant
   class << self
