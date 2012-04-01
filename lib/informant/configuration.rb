@@ -1,6 +1,6 @@
 module Informant
   class Configuration
-    attr_reader :nodes, :commands, :notifications
+    attr_reader :nodes, :commands, :email_notifiers
 
     def self.configure(file = "Informantfile")
       configuration = self.new
@@ -23,9 +23,9 @@ module Informant
       @commands[name] = Config::Command.new(name, options)
     end
 
-    def notification(name, options)
-      @notifications ||= {}
-      @notifications[name] = Config::Notification(name, options)
+    def email_notifier(name, options)
+      @email_notifiers ||= {}
+      @email_notifiers[name] = Config::EmailNotifier.new(name, options)
     end
   end
 end

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+number=$((RANDOM%3))
+echo Sigh, $number
+exit $number

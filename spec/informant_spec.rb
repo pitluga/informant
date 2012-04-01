@@ -10,4 +10,14 @@ describe Informant do
       Informant.scheduler.schedules.size.should == 90
     end
   end
+
+  describe ".subscribe" do
+    with_stub_channels
+    with_config_file(INFORMANTFILE)
+
+    it "subscribes the notifiers to their channels" do
+      Informant.subscribe
+      Informant.channels.checks.subscribers.size.should == 1
+    end
+  end
 end

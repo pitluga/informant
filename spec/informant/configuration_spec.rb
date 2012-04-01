@@ -21,5 +21,13 @@ describe Informant::Configuration do
       command.interval.should == 10
       File.expand_path(command.execute).should == PASSING_CHECK
     end
+
+    it "builds email notifiers" do
+      @config.email_notifiers.size.should == 1
+      name, emailer = @config.email_notifiers.first
+      name.should == "me"
+      emailer.from.should == "informant@example.com"
+      emailer.to.should == ["informanttester@gmail.com"]
+    end
   end
 end

@@ -36,7 +36,7 @@ end
 def with_stub_channels
   around do |spec|
     channels = Informant.channels
-    Informant.channels = Informant::Channels.new(StubChannel.new)
+    Informant.channels = Informant::Channels.new(StubChannel.new, StubChannel.new)
     spec.run
     Informant.channels = channels
   end

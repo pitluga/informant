@@ -21,6 +21,16 @@ module Informant
         end
       end
 
+      def report(command, new_result)
+        old_result = command_status[command.name]
+        command_status[command.name] = new_result
+        if new_result.status == :failed && old_result.status != new_result.status
+          Informant.channels.notifications.push(
+            Informant::NotificationMessage.new(self, command, old_result, new_result)
+          )
+        end
+      end
+
       def count_unknown
         commands.select { |n| command_status[n].status == :unknown }.size
       end

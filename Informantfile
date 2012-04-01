@@ -1,12 +1,24 @@
+email_notifier "me", {
+  :from => "informant@example.com",
+  :to => ["informanttester@gmail.com"]
+}
+
 command "passing", {
   :execute => "spec/support/checks/passing_check",
-  :interval => 10
+  :interval => 10,
+  :notifiers => ["me"]
 }
 command "failing", {
-  :execute => "spec/support/checks/failing_check"
+  :execute => "spec/support/checks/failing_check",
+  :notifiers => ["me"]
 }
 command "unknown", {
-  :execute => "spec/support/checks/unknown_check"
+  :execute => "spec/support/checks/unknown_check",
+  :notifiers => ["me"]
+}
+command "flapping", {
+  :execute => "spec/support/checks/flapping_check",
+  :notifiers => ["me"]
 }
 
 (1..30).each do |n|
@@ -15,7 +27,8 @@ node "app#{"%02d" % n}", {
   :commands => [
     "passing",
     "failing",
-    "unknown"
+    "unknown",
+    "flapping"
   ]
 }
 end
