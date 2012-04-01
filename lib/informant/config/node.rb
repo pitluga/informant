@@ -9,7 +9,7 @@ module Informant
         @address = options[:address]
         @commands = options.fetch(:commands, [])
         @command_status = {}
-        @command_status.default = CheckResult::UNKNOWN
+        @command_status.default = Informant::CheckStatus.new(self)
       end
 
       def schedule
@@ -22,19 +22,7 @@ module Informant
       end
 
       def report(command, new_result)
-        old_result = command_status[command.name]
-        new_result.consecutive = old_result.consecutive + 1 if old_result.status == new_result.status
-        command_status[command.name] = new_result
-        if _notify?(command, old_result, new_result)
-          Informant.channels.notifications.push(
-            Informant::NotificationMessage.new(self, command, old_result, new_result)
-          )
-        end
-      end
-
-      def _notify?(command, old_result, new_result)
-        new_result.status == :failed &&
-          command.checks_before_notification == new_result.consecutive
+        command_status[command.name].report(command, new_result)
       end
 
       def count_unknown

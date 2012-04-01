@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Informant::Config::Node do
-
   describe "#schedule" do
     with_stub_scheduler
 
@@ -35,56 +34,6 @@ describe Informant::Config::Node do
     end
   end
 
-  describe "#report" do
-    with_stub_channels
-
-    before(:each) do
-      config = Informant::Configuration.new
-      config.node("node", :address => "localhost", :commands => %w(a b c))
-      config.command("check_passing", :execute => PASSING_CHECK, :interval => 60, :checks_before_notification => 1)
-      config.command("check_flapping", :execute => FLAPPING_CHECK, :interval => 60, :checks_before_notification => 3)
-      @node = config.nodes['node']
-      @passing = config.commands['check_passing']
-      @flapping = config.commands['check_flapping']
-    end
-
-    it "stores the current status of the command" do
-      @node.report(@passing, Informant::CheckResult.new(:success, "OK"))
-      @node.command_status[@passing.name].status.should == :success
-      @node.command_status[@passing.name].output.should == "OK"
-    end
-
-    it "does not notify the first check if it is successful" do
-      @node.report(@passing, Informant::CheckResult.new(:success, "OK"))
-      Informant.channels.notifications.messages.size.should == 0
-    end
-
-    it "notifies on the first check if it has failed" do
-      @node.report(@passing, Informant::CheckResult.new(:failed, "Uh oh"))
-      Informant.channels.notifications.messages.size.should == 1
-      message = Informant.channels.notifications.messages.first
-      message.node.should == @node
-      message.command.should == @passing
-      message.old_result.status.should == :unknown
-      message.new_result.status.should == :failed
-    end
-
-    it "does not notify again if the status is still failed" do
-      @node.report(@passing, Informant::CheckResult.new(:failed, "Uh oh"))
-      @node.report(@passing, Informant::CheckResult.new(:failed, "Uh oh"))
-      Informant.channels.notifications.messages.size.should == 1
-    end
-
-    it "does not notify unless failed more than checks_before_notification setting" do
-      @node.report(@flapping, Informant::CheckResult.new(:failed, "Boom"))
-      Informant.channels.notifications.messages.size.should == 0
-      @node.report(@flapping, Informant::CheckResult.new(:failed, "Boom"))
-      Informant.channels.notifications.messages.size.should == 0
-      @node.report(@flapping, Informant::CheckResult.new(:failed, "Boom"))
-      Informant.channels.notifications.messages.size.should == 1
-    end
-  end
-
   describe "check counts" do
     before :each do
       config = Informant::Configuration.new
@@ -111,5 +60,4 @@ describe Informant::Config::Node do
       end
     end
   end
-
 end
