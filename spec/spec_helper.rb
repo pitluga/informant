@@ -7,6 +7,7 @@ require 'support/stub_scheduler'
 PASSING_CHECK = File.expand_path("../support/checks/passing_check", __FILE__)
 FAILING_CHECK = File.expand_path("../support/checks/failing_check", __FILE__)
 UNKNOWN_CHECK = File.expand_path("../support/checks/unknown_check", __FILE__)
+FLAPPING_CHECK = File.expand_path("../support/checks/flapping_check", __FILE__)
 
 INFORMANTFILE = File.expand_path("../../Informantfile", __FILE__)
 

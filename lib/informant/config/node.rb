@@ -23,12 +23,18 @@ module Informant
 
       def report(command, new_result)
         old_result = command_status[command.name]
+        new_result.consecutive = old_result.consecutive + 1 if old_result.status == new_result.status
         command_status[command.name] = new_result
-        if new_result.status == :failed && old_result.status != new_result.status
+        if _notify?(command, old_result, new_result)
           Informant.channels.notifications.push(
             Informant::NotificationMessage.new(self, command, old_result, new_result)
           )
         end
+      end
+
+      def _notify?(command, old_result, new_result)
+        new_result.status == :failed &&
+          command.checks_before_notification == new_result.consecutive
       end
 
       def count_unknown

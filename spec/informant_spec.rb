@@ -7,7 +7,7 @@ describe Informant do
 
     it "schedules the checks for all the nodes" do
       Informant.schedule
-      Informant.scheduler.schedules.size.should == 90
+      Informant.scheduler.schedules.size.should == 120
     end
   end
 
@@ -17,7 +17,7 @@ describe Informant do
 
     it "subscribes the notifiers to their channels" do
       Informant.subscribe
-      Informant.channels.checks.subscribers.size.should == 1
+      Informant.channels.notifications.subscribers.size.should == 1
     end
   end
 end
