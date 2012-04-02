@@ -8,6 +8,22 @@ module Informant
       @timestamp = timestamp
     end
 
-    UNKNOWN = self.new(:unknown, "", nil)
+    NEVER_CHECKED = CheckResult.new(:never_checked, "", nil)
+
+    def failed?
+      @status == :failed
+    end
+
+    def never_checked?
+      @status == :never_checked
+    end
+
+    def success?
+      @status == :success
+    end
+
+    def unknown?
+      @status == :unknown
+    end
   end
 end

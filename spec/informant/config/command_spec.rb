@@ -21,13 +21,5 @@ describe Informant::Config::Command do
       message.command.should == command
       message.result.status.should == :success
     end
-
-    it "updates the current state of the node" do
-      node = @config.nodes['node']
-      command = @config.commands['check_passing']
-      command.run_for(node)
-
-      node.command_status['check_passing'].status.should == :success
-    end
   end
 end

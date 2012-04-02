@@ -46,7 +46,7 @@ describe Informant::Config::Node do
         @node.command_status['b'] = Informant::CheckResult.new(:unknown, "")
         @node.command_status['c'] = Informant::CheckResult.new(:success, "")
 
-        @node.count_unknown.should == 2
+        @node.count_unknown.should == 1
       end
     end
 

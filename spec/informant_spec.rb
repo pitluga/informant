@@ -19,5 +19,10 @@ describe Informant do
       Informant.subscribe
       Informant.channels.notifications.subscribers.size.should == 1
     end
+
+    it "subscribes the check reporter to the checks channel" do
+      Informant.subscribe
+      Informant.channels.checks.subscribers.size.should == 1
+    end
   end
 end

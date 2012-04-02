@@ -3,20 +3,18 @@ module Informant
 
     def initialize(node)
       @node = node
-      @old_result = Informant::CheckResult::UNKNOWN
-      @new_result = Informant::CheckResult::UNKNOWN
+      @old_result = Informant::CheckResult::NEVER_CHECKED
+      @new_result = Informant::CheckResult::NEVER_CHECKED
       @notified = false
-      @first_result = true
       @consecutive = 0
     end
 
     def report(command, result)
       _assign_new_result(result)
-      _do_not_notify_initial_success(result)
+      _do_not_notify_initial_success
       if _should_notify?(command)
         _notify(command)
       end
-      @first_result = false
     end
 
     def status
@@ -25,6 +23,10 @@ module Informant
 
     def output
       @new_result.output
+    end
+
+    def timestamp
+      @new_result.timestamp
     end
 
     def _assign_new_result(result)
@@ -39,14 +41,12 @@ module Informant
       end
     end
 
-    def _do_not_notify_initial_success(result)
-      @notified = true if @first_result && result.status == :success
+    def _do_not_notify_initial_success
+      @notified = true if @old_result.never_checked? && @new_result.success?
     end
 
     def _should_notify?(command)
-      !@notified &&
-        !(@old_result.status == :unknown && @new_result.status == :success) &&
-        command.checks_before_notification <= @consecutive
+      !@notified && command.checks_before_notification <= @consecutive
     end
 
     def _notify(command)

@@ -32,7 +32,7 @@ describe Informant::Config::EmailNotifier do
       message = Informant::NotificationMessage.new(
         @config.nodes['local'],
         @config.commands['passing'],
-        Informant::CheckResult::UNKNOWN,
+        Informant::CheckResult.new(:success, "yay"),
         Informant::CheckResult.new(:failed, "uh oh")
       )
       Informant::EmailSender.should_receive(:send_mail)
@@ -44,7 +44,7 @@ describe Informant::Config::EmailNotifier do
       message = Informant::NotificationMessage.new(
         @config.nodes['local'],
         @config.commands['important'],
-        Informant::CheckResult::UNKNOWN,
+        Informant::CheckResult.new(:success, "yay"),
         Informant::CheckResult.new(:failed, "uh oh")
       )
       Informant::EmailSender.should_not_receive(:send_mail)

@@ -8,8 +8,7 @@ module Informant
         @name = name
         @address = options[:address]
         @commands = options.fetch(:commands, [])
-        @command_status = {}
-        @command_status.default = Informant::CheckStatus.new(self)
+        @command_status = Hash.new { |h,k| h[k] = Informant::CheckStatus.new(self) }
       end
 
       def schedule

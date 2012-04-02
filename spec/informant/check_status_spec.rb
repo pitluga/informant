@@ -36,8 +36,8 @@ describe Informant::CheckStatus do
       message = Informant.channels.notifications.messages.first
       message.node.should == @node
       message.command.should == command
-      message.old_result.status.should == :unknown
-      message.new_result.status.should == :failed
+      message.old_result.should be_never_checked
+      message.new_result.should be_failed
     end
 
     it "does not notify again if the status is still failed" do
@@ -72,7 +72,7 @@ describe Informant::CheckStatus do
     end
 
     it "does not repeatedly notify successful checks" do
-      @config.command("check_flapping", :execute => FLAPPING_CHECK, :checks_before_notification => 1)
+      @config.command("check_flapping", :execute => FLAPPING_CHECK, :checks_before_notification => 3)
       command = @config.commands['check_flapping']
       check_status = Informant::CheckStatus.new(@node)
       check_status.report(command, Informant::CheckResult.new(:success, "Great Success"))

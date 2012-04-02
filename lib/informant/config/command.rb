@@ -14,7 +14,6 @@ module Informant
 
       def run_for(node)
         result = CommandRunner.run(execute)
-        node.report(self, result)
         message = CheckMessage.new(node, self, result)
         Informant.channels.checks.push(message)
       end
