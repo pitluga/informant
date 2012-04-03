@@ -1,5 +1,9 @@
 module Informant
   module Helpers
+    def id_for_status(status)
+      "#{status.node.name}_#{status.command.name}"
+    end
+
     def label_class_for_status(status)
       case status
       when :success then "label-success"

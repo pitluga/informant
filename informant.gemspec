@@ -19,9 +19,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency "em-websocket", "~> 0.3.6"
   s.add_dependency "thin", "~> 1.3.1"
   s.add_dependency "sinatra", "~> 1.3.2"
-  s.add_dependency "sinatra-contrib"
+  s.add_dependency "sinatra-contrib", "~> 1.3.1"
   s.add_dependency "sinatra-synchrony", "~> 0.1.1"
 
   s.add_development_dependency "rspec", "2.9.0"

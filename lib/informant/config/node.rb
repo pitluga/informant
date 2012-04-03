@@ -1,14 +1,14 @@
 module Informant
   module Config
     class Node
-      attr_reader :name, :address, :commands, :command_status
+      attr_reader :name, :address, :commands
 
       def initialize(config, name, options)
         @config = config
         @name = name
         @address = options[:address]
         @commands = options.fetch(:commands, [])
-        @command_status = Hash.new { |h,k| h[k] = Informant::CheckStatus.new(self) }
+        @command_statuses = {}
       end
 
       def schedule
@@ -20,16 +20,24 @@ module Informant
         end
       end
 
+      def status_for(command)
+        @command_statuses[command.name] ||= Informant::CheckStatus.new(self, command)
+      end
+
+      def statuses
+        @commands.map { |command_name| status_for(Informant.configuration.commands[command_name]) }
+      end
+
       def report(command, new_result)
-        command_status[command.name].report(command, new_result)
+        status_for(command).report(command, new_result)
       end
 
       def count_unknown
-        commands.select { |n| command_status[n].status == :unknown }.size
+        @command_statuses.values.select(&:unknown?).size
       end
 
       def count_failed
-        commands.select { |n| command_status[n].status == :failed }.size
+        @command_statuses.values.select(&:failed?).size
       end
     end
   end

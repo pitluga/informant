@@ -1,11 +1,13 @@
 require 'fiber'
+require 'forwardable'
 
 require 'bundler/setup'
+require 'eventmachine'
+require 'em-websocket'
+require 'rack/fiber_pool'
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/synchrony'
-require 'eventmachine'
-require 'rack/fiber_pool'
 
 require 'thin/callbacks'
 require 'informant/channels'
@@ -24,10 +26,11 @@ require 'informant/notification_message'
 require 'informant/report_message'
 require 'informant/scheduler'
 require 'informant/web'
+require 'informant/web_socket'
 
 module Informant
   class << self
-    attr_accessor :scheduler, :channels, :configuration
+    attr_accessor :scheduler, :channels, :configuration, :web_socket
   end
 
   self.scheduler = Informant::Scheduler.new
@@ -53,6 +56,10 @@ module Informant
   def self.check_fiber_pool
     @check_fiber_pool ||= FiberPool.new(10)
   end
+
+  def self.start_web_socket
+    @web_socket = Informant::WebSocket.start
+  end
 end
 
 Thin::Callbacks.after_connect do
@@ -60,4 +67,5 @@ Thin::Callbacks.after_connect do
   Informant.configure
   Informant.subscribe
   Informant.schedule
+  Informant.start_web_socket
 end

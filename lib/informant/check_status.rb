@@ -1,8 +1,15 @@
 module Informant
   class CheckStatus
+    extend Forwardable
 
-    def initialize(node)
+    attr_reader :node, :command
+
+    def_delegators :@new_result, :status, :output, :timestamp
+    def_delegators :@new_result, :failed?, :never_checked?, :success?, :unknown?
+
+    def initialize(node, command)
       @node = node
+      @command = command
       @old_result = Informant::CheckResult::NEVER_CHECKED
       @new_result = Informant::CheckResult::NEVER_CHECKED
       @notified = false
