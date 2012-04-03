@@ -10,6 +10,11 @@ module Informant
 
     get "/" do
       @active_tab = :nodes
+      @grouped_nodes = Informant.configuration.nodes.inject({}) do |groups, (name, n)|
+        groups[n.group] ||= {}
+        groups[n.group][name] = n
+        groups
+      end
       erb :"index.html"
     end
 

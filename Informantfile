@@ -21,9 +21,34 @@ command "flapping", {
   :notifiers => ["me"]
 }
 
-(1..30).each do |n|
+(1..10).each do |n|
 node "app#{"%02d" % n}", {
   :address => "127.0.0.1",
+  :group => "production",
+  :commands => [
+    "passing",
+    "failing",
+    "unknown",
+    "flapping"
+  ]
+}
+end
+(11..20).each do |n|
+node "app#{"%02d" % n}", {
+  :address => "127.0.0.1",
+  :group => "staging",
+  :commands => [
+    "passing",
+    "failing",
+    "unknown",
+    "flapping"
+  ]
+}
+end
+(21..30).each do |n|
+node "app#{"%02d" % n}", {
+  :address => "127.0.0.1",
+  :group => "qa",
   :commands => [
     "passing",
     "failing",

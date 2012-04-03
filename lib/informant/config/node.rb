@@ -1,11 +1,12 @@
 module Informant
   module Config
     class Node
-      attr_reader :name, :address, :commands
+      attr_reader :name, :address, :commands, :group
 
       def initialize(config, name, options)
         @config = config
         @name = name
+        @group = options.fetch(:group, "nodes")
         @address = options[:address]
         @commands = options.fetch(:commands, [])
         @command_statuses = {}

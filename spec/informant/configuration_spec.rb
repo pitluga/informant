@@ -10,6 +10,7 @@ describe Informant::Configuration do
       @config.nodes.size.should == 30
       name, node = @config.nodes.first
       name.should == "app01"
+      node.group.should == "production"
       node.address.should == "127.0.0.1"
       node.commands.should == ["passing", "failing", "unknown", "flapping"]
     end
