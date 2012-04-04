@@ -17,6 +17,5 @@ module Informant
       end
       erb :"index.html"
     end
-
   end
 end

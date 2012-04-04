@@ -1,4 +1,7 @@
+ENV['RACK_ENV'] = 'test'
+
 require 'rspec'
+require 'rack/test'
 require 'informant'
 
 require 'support/stub_channel'
@@ -10,6 +13,8 @@ UNKNOWN_CHECK = File.expand_path("../support/checks/unknown_check", __FILE__)
 FLAPPING_CHECK = File.expand_path("../support/checks/flapping_check", __FILE__)
 
 INFORMANTFILE = File.expand_path("../../Informantfile", __FILE__)
+
+Sinatra::Synchrony.patch_tests!
 
 RSpec.configure do |config|
   config.expect_with :rspec
