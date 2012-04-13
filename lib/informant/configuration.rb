@@ -9,7 +9,7 @@ module Informant
     end
 
     def read_file(file)
-      puts "Reading configuration file: #{file}"
+      Logger.log "Reading configuration file: #{file}"
       content = File.read(file)
       instance_eval(content)
     end

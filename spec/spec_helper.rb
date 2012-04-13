@@ -15,6 +15,7 @@ FLAPPING_CHECK = File.expand_path("../support/checks/flapping_check", __FILE__)
 INFORMANTFILE = File.expand_path("../../Informantfile", __FILE__)
 
 Sinatra::Synchrony.patch_tests!
+Informant::Logger.stream = StringIO.new
 
 RSpec.configure do |config|
   config.expect_with :rspec
