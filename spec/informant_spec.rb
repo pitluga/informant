@@ -1,16 +1,6 @@
 require 'spec_helper'
 
 describe Informant do
-  describe ".schedule" do
-    with_stub_scheduler
-    with_config_file(INFORMANTFILE)
-
-    it "schedules the checks for all the nodes" do
-      Informant.schedule
-      Informant.scheduler.schedules.size.should == 120
-    end
-  end
-
   describe ".subscribe" do
     with_stub_channels
     with_config_file(INFORMANTFILE)

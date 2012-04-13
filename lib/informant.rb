@@ -33,8 +33,6 @@ module Informant
     attr_accessor :scheduler, :channels, :configuration, :web_socket
   end
 
-  self.scheduler = Informant::Scheduler.new
-
   def self.configure
     @configuration = Configuration.configure
   end
@@ -44,7 +42,8 @@ module Informant
   end
 
   def self.schedule
-    configuration.nodes.each { |(_,node)| node.schedule }
+    @scheduler = Scheduler.new(check_fiber_pool)
+    @scheduler.start_checking!
   end
 
   def self.subscribe

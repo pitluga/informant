@@ -1,24 +1,19 @@
 module Informant
   module Config
     class Node
-      attr_reader :name, :address, :commands, :group
+      attr_reader :name, :address, :group
 
       def initialize(config, name, options)
         @config = config
         @name = name
         @group = options.fetch(:group, "nodes")
         @address = options[:address]
-        @commands = options.fetch(:commands, [])
+        @command_names = options.fetch(:commands, [])
         @command_statuses = {}
       end
 
-      def schedule
-        @commands.each do |command_name|
-          command = @config.commands[command_name]
-          Informant.scheduler.add_periodic_timer(command.interval) do
-            Informant.check_fiber_pool.spawn { command.run_for(self) }
-          end
-        end
+      def commands
+        @command_names.map { |name| Informant.configuration.commands[name] }
       end
 
       def status_for(command)
@@ -26,7 +21,7 @@ module Informant
       end
 
       def statuses
-        @commands.map { |command_name| status_for(Informant.configuration.commands[command_name]) }
+        @command_names.map { |command_name| status_for(Informant.configuration.commands[command_name]) }
       end
 
       def report(command, new_result)

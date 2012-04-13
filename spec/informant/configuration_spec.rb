@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe Informant::Configuration do
   describe ".configure" do
+    with_config_file INFORMANTFILE
+
     before :each do
-      @config = Informant::Configuration.configure(INFORMANTFILE)
+      @config = Informant.configuration
     end
 
     it "builds nodes" do
@@ -12,7 +14,12 @@ describe Informant::Configuration do
       name.should == "app01"
       node.group.should == "production"
       node.address.should == "127.0.0.1"
-      node.commands.should == ["passing", "failing", "unknown", "flapping"]
+      node.commands.should == [
+        @config.commands["passing"],
+        @config.commands["failing"],
+        @config.commands["unknown"],
+        @config.commands["flapping"]
+      ]
     end
 
     it "builds commands" do

@@ -5,7 +5,7 @@ require 'rack/test'
 require 'informant'
 
 require 'support/stub_channel'
-require 'support/stub_scheduler'
+require 'support/stub_fiber_pool'
 
 PASSING_CHECK = File.expand_path("../support/checks/passing_check", __FILE__)
 FAILING_CHECK = File.expand_path("../support/checks/failing_check", __FILE__)
@@ -27,15 +27,6 @@ def run_in_reactor
       fiber.resume
       EventMachine.stop
     end
-  end
-end
-
-def with_stub_scheduler
-  around do |spec|
-    scheduler = Informant.scheduler
-    Informant.scheduler = StubScheduler.new
-    spec.run
-    Informant.scheduler = scheduler
   end
 end
 
