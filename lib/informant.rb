@@ -68,3 +68,5 @@ Thin::Callbacks.after_connect do
   Informant.schedule
   Informant.start_web_socket
 end
+
+Signal.trap("HUP") { Informant.configure }
