@@ -31,4 +31,14 @@ describe Informant::Helpers do
       @helper.tab_class(:foo, :bar).should == ""
     end
   end
+
+  describe "#hidden_if_empty" do
+    it "returns 'hide' if passed zero" do
+      @helper.hidden_if_empty(0).should == 'hide'
+    end
+
+    it "returns '' if greater than zero" do
+      @helper.hidden_if_empty(10).should == ''
+    end
+  end
 end

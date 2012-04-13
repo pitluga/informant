@@ -12,6 +12,10 @@ module Informant
       end
     end
 
+    def hidden_if_empty(count)
+      count > 0 ? '' : 'hide'
+    end
+
     def http_date(time)
       return nil unless time
       time.httpdate

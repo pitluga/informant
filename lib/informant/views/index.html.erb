@@ -8,8 +8,8 @@
         <li id="<%= name %>-list">
           <a href="#<%= name %>">
             <%= name %>
-            <span class="badge badge-warning hide">&nbsp;</span>
-            <span class="badge badge-error hide">&nbsp;</span>
+            <span class="badge badge-warning <%= hidden_if_empty(node.count_unknown) %>"><%= node.count_unknown %></span>
+            <span class="badge badge-error <%= hidden_if_empty(node.count_failed) %>"><%= node.count_failed %></span>
           </a>
         </li>
       <% end %>
