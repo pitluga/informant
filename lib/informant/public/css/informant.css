@@ -1,2 +1,3 @@
-.nodes .timestamp { width: 25%; }
-.nodes .output { width: 50%; }
+.nodes .timestamp { width: 20%; }
+.nodes .output { width: 40%; }
+.nodes .acounts { width: 20%; }

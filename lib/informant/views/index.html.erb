@@ -26,6 +26,7 @@
           <th>Name</th>
           <th>Last Check</th>
           <th>Output</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -39,6 +40,10 @@
               <abbr class="easydate" title="<%= http_date status.timestamp %>" />
             </td>
             <td class="output"><%= status.output %></td>
+            <td class="actions">
+              <a class="btn reschedule-btn" href="#"><i class="icon-repeat"></i></a>
+              <a class="btn silence-btn" href="#"><i class="icon-volume-off"></i></a>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -55,4 +60,8 @@
     <abbr class="easydate" title="{{ timestamp }}">just now</abbr>
   </td>
   <td class="output">{{ output }}</td>
+  <td class="actions">
+    <a class="btn" href="#"><i class="icon-repeat"></i></a>
+    <a class="btn" href="#"><i class="icon-volume-off"></i></a>
+  </td>
 </script>
