@@ -32,17 +32,17 @@
       <tbody>
         <% node.statuses.each do |status| %>
           <tr id="<%= id_for_status(status) %>">
-            <td class=".label">
+            <td class="label-col">
               <%= status.command.name %>
               <span class="label <%= label_class_for_status(status.status) %>"><%= status.status %> </span>
             </td>
-            <td class="timestamp">
+            <td class="timestamp-col">
               <abbr class="easydate" title="<%= http_date status.timestamp %>" />
             </td>
-            <td class="output"><%= status.output %></td>
-            <td class="actions">
-              <a class="btn reschedule-btn" href="#"><i class="icon-repeat"></i></a>
-              <a class="btn silence-btn" href="#"><i class="icon-volume-off"></i></a>
+            <td class="output-col"><%= status.output %></td>
+            <td class="actions-col">
+              <a class="btn reschedule-btn" data-node="<%= name %>" data-command="<%= status.command.name %>" href="#"><i class="icon-refresh"></i></a>
+              <a class="btn silence-btn" data-node="<%= name %>" data-command="<%= status.command.name %>" href="#"><i class="icon-volume-off"></i></a>
             </td>
           </tr>
         <% end %>
@@ -51,17 +51,10 @@
   <% end %>
 </div>
 
-<script id="check-row" type="text/x-handlebars-template">
-  <td class=".label">
-    {{ commandName }}
-    <span class="label {{ statusClass }}">{{ status }}</span>
-  </td>
-  <td class="timestamp">
-    <abbr class="easydate" title="{{ timestamp }}">just now</abbr>
-  </td>
-  <td class="output">{{ output }}</td>
-  <td class="actions">
-    <a class="btn" href="#"><i class="icon-repeat"></i></a>
-    <a class="btn" href="#"><i class="icon-volume-off"></i></a>
-  </td>
+<script id="row-label-template" type="text/x-handlebars-template">
+  {{ commandName }}
+  <span class="label {{ statusClass }}">{{ status }}</span>
+</script>
+<script id="row-timestamp-template" type="text/x-handlebars-template">
+  <abbr class="easydate" title="{{ timestamp }}">just now</abbr>
 </script>
