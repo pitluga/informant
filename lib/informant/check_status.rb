@@ -24,21 +24,20 @@ module Informant
       end
     end
 
-    def status
-      @new_result.status
+    def reschedule!
+      @forced_stale = true
     end
 
-    def output
-      @new_result.output
-    end
-
-    def timestamp
-      @new_result.timestamp
+    def stale?
+      return true if @new_result.never_checked?
+      return true if @forced_stale
+      @new_result.timestamp < (Time.now - @command.interval)
     end
 
     def _assign_new_result(result)
       @old_result = @new_result
       @new_result = result
+      @forced_stale = false
 
       if @old_result.status == @new_result.status
         @consecutive += 1

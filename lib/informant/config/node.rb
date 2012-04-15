@@ -16,6 +16,10 @@ module Informant
         @command_names.map { |name| Informant.configuration.commands[name] }
       end
 
+      def stale_commands
+        statuses.select(&:stale?).map(&:command)
+      end
+
       def status_for(command)
         @command_statuses[command.name] ||= Informant::CheckStatus.new(self, command)
       end

@@ -17,5 +17,12 @@ module Informant
       end
       erb :"index.html"
     end
+
+    post "/:node/:command/reschedule" do
+      node = Informant.configuration.nodes[params['node']]
+      command = Informant.configuration.commands[params['command']]
+      status = node.status_for(command)
+      status.reschedule!
+    end
   end
 end

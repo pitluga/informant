@@ -81,4 +81,54 @@ describe Informant::CheckStatus do
       Informant.channels.notifications.messages.size.should == 0
     end
   end
+
+  describe "#stale?" do
+    it "is true when the check has never been checked" do
+      @config.command("check_flapping", :execute => FLAPPING_CHECK)
+      command = @config.commands['check_flapping']
+      check_status = Informant::CheckStatus.new(@node, command)
+      check_status.should be_stale
+    end
+
+    it "is false when the status has been updated recently" do
+      @config.command("check_flapping", :execute => FLAPPING_CHECK, :interval => 15)
+      command = @config.commands['check_flapping']
+      check_status = Informant::CheckStatus.new(@node, command)
+      check_status.report(command, Informant::CheckResult.new(:success, "Great Success", Time.now - 12))
+      check_status.should_not be_stale
+    end
+
+    it "is true when the status was updated more than the commands interval ago" do
+      @config.command("check_flapping", :execute => FLAPPING_CHECK, :interval => 15)
+      command = @config.commands['check_flapping']
+      check_status = Informant::CheckStatus.new(@node, command)
+      check_status.report(command, Informant::CheckResult.new(:success, "Great Success", Time.now - 17))
+      check_status.should be_stale
+    end
+  end
+
+  describe "#reschedule!" do
+    it "marks the status as stale" do
+      @config.command("check_flapping", :execute => FLAPPING_CHECK, :interval => 15)
+      command = @config.commands['check_flapping']
+      check_status = Informant::CheckStatus.new(@node, command)
+      check_status.report(command, Informant::CheckResult.new(:success, "Great Success", Time.now - 12))
+      check_status.should_not be_stale
+
+      check_status.reschedule!
+      check_status.should be_stale
+    end
+
+    it "is no longer stale after the next reporting" do
+      @config.command("check_flapping", :execute => FLAPPING_CHECK, :interval => 15)
+      command = @config.commands['check_flapping']
+      check_status = Informant::CheckStatus.new(@node, command)
+      check_status.report(command, Informant::CheckResult.new(:success, "Great Success", Time.now - 12))
+      check_status.should_not be_stale
+
+      check_status.reschedule!
+      check_status.report(command, Informant::CheckResult.new(:success, "Great Success", Time.now - 12))
+      check_status.should_not be_stale
+    end
+  end
 end
